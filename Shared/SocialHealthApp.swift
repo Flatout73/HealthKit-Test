@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct SocialHealthApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate
+
+    @StateObject
+    var healthService = HealthService()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                FeedView(healthService: healthService)
+                .tabItem { Text("Лента") }
+                SearchView()
+                .tabItem { Text("Поиск") }
+                ProfileView(profile: $healthService.profile)
+                    .tabItem { Text("Профиль") }
+            }
         }
     }
 }
